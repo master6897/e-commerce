@@ -41,6 +41,9 @@ const Links = (props) => {
             <ActiveLink path={'/login'}>
                 Login
             </ActiveLink>
+            <ActiveLink path={'/new-product'}>
+                Add Product
+            </ActiveLink>
         </Wrapper>
     )
 }

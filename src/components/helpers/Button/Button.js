@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 
 const StyledButton = styled.button`
     padding: 1rem;
@@ -14,11 +14,23 @@ const StyledButton = styled.button`
         color: black;
         border: 1px solid var(--first);
     }
+    ${props => props.disabled === true && css`
+        background-color: grey;
+        color: black;
+        cursor: not-allowed;
+        border: 1px solid black;
+        &:hover{
+            background-color: grey;
+            color: black;
+            cursor: not-allowed;
+            border: 1px solid black;
+        }
+    `}
 `
 
 const Button = (props) => {
     return(
-        <StyledButton onClick={props.onClick} type={props.type}>
+        <StyledButton onClick={props.onClick} type={props.type} disabled={props.disabled}>
             {props.value}
         </StyledButton>
     )
