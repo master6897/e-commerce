@@ -35,16 +35,27 @@ const NewProductForm = () => {
     const allInputs = {imgUrl: ''};
     const [imageAsFile, setImageAsFile] = useState('');
     const [imageAsUrl, setImageAsUrl] = useState(allInputs);
-
-    console.log(imageAsFile);
-    console.log(imageAsUrl);
+    const [inputName, setInputName] = useState('');
+    const [inputPrice, setInputPrice] = useState(0);
+    const [inputDescription, setInputDescription] = useState('');
 
     const imageAsFileHandler = (evt) => {
         const image = evt.target.files[0];
         setImageAsFile(image);
     }
+    const inputNameHandler = (evt) => {
+        setInputName(evt.target.value);
+    }
 
-    const firebaseUploadHandler = (evt) => {
+    const inputPriceHandler = (evt) => {
+        setInputPrice(parseInt(evt.target.value));
+    }
+
+    const inputDescriptionHandler = (evt) => {
+        setInputDescription(evt.target.value);
+    }
+
+    const firebaseUploadHandler = async (evt) => {
         evt.preventDefault();
         if(imageAsFile === ''){
             console.log(`not an image, the imgae file is a ${typeof(imageAsFile)}`);
@@ -60,21 +71,44 @@ const NewProductForm = () => {
                 setImageAsUrl(prevObject => ({...prevObject, imgUrl: fireBaseUrl}))
             })
         });
+        const data = {
+            name: inputName,
+            price: inputPrice,
+            description: inputDescription,
+            image: imageAsUrl
+        };
+        const response = await fetch('https://e-commerce-35f70-default-rtdb.europe-west1.firebasedatabase.app/products.json', {
+            method: 'POST',
+            header: {
+                'Content-type' : 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        console.log(response.json());
     }
 
     return(
         <StyledForm onSubmit={firebaseUploadHandler}>
             <div>
                 <label>Name of product:</label>
-                <input type='text' />
+                <input type='text' 
+                    value={inputName}
+                    onChange={inputNameHandler}
+                />
             </div>
             <div>
                 <label>Price:</label>
-                <input type='number' />
+                <input type='number'
+                    value={inputPrice}
+                    onChange={inputPriceHandler}
+                 />
             </div>
             <div>
                 <label>Description:</label>
-                <textarea cols={20} rows={5}/>
+                <textarea cols={20} rows={5}
+                    value={inputDescription}
+                    onChange={inputDescriptionHandler}
+                />
             </div>
             <div>
                 <label>Photo of the product:</label>
