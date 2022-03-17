@@ -4,9 +4,9 @@ import Button from "../Button/Button";
 const StyledContainer = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: stretch;
+    justify-content: space-between;
     width: 30%;
-    align-items: center;
+    align-items: stretch;
     border: 1px solid black;
     border-radius: 10px;
     overflow: hidden;
@@ -24,9 +24,11 @@ const StyledContainer = styled.div`
         width: 90%;
         margin: 2rem 0;
         flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
     }
     & div.photo{
-        height: 10rem;
+        ${props => props.list && css`height: 10rem`};
         width: 100%;
         display: flex;
         transition: 0.3s;
@@ -37,8 +39,11 @@ const StyledContainer = styled.div`
             background-size: cover;
         `};
         ${props => props.details && css`
-            width: 90%;
-            background-size: contain;
+            width: 100%;
+            background-size: cover;
+            @media (max-width: 480px){
+                height: 15rem;
+            }
         `}
     }
     & div.details{
@@ -52,6 +57,10 @@ const StyledContainer = styled.div`
             width: 80%;
             padding: 1rem;
             text-align: justify;
+            @media (max-width: 480px){
+                box-sizing: border-box;
+                width: 100%;
+            }
         `}
         & button{
             margin: 0 2rem;
@@ -81,7 +90,7 @@ const ProductCard = (props) => {
         props.addItemToCart(data);
     }
     return(
-        <StyledContainer image={props.image} details={props.details}>
+        <StyledContainer image={props.image} details={props.details} list={props.list}>
             <div className='photo' onClick={props.redirectHandler}>
             </div>
             <div className='details'>

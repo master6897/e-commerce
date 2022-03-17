@@ -1,5 +1,6 @@
 import styled, {css, keyframes} from "styled-components";
 import Button from "../Button/Button";
+import { useNavigate } from "react-router-dom";
 
 const animation = keyframes`
     0%{
@@ -75,6 +76,10 @@ const StyledContainer = styled.div`
 `
 
 const Modal = (props) => {
+    const navigate = useNavigate();
+    const redirectToProductsHandler = () => {
+        navigate('/products');
+    }
     return(
         <StyledContainer animate={props.animate} info={props.info}>
             {props.animate && (
@@ -87,7 +92,7 @@ const Modal = (props) => {
                     <h1>Info</h1>
                     <h3>{props.message}</h3>
                     <div className='button-container'>
-                        <Button value='Okay' />
+                        <Button value='Okay' onClick={redirectToProductsHandler}/>
                     </div>
                 </div>
             )}

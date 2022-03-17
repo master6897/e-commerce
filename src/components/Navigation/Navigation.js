@@ -28,7 +28,7 @@ const StyledLogo = styled.div`
     width: 40%;
     color: var(--first);
     @media (max-width: 768px){
-        width: 50%;
+        width: 70%;
     }
 `;
 const Navigation = () => {

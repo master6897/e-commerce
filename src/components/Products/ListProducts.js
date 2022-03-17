@@ -32,7 +32,8 @@ const ListProducts = () => {
                     image={product.image}
                     id={product.id}
                     redirectHandler={() => redirectHandler(product.id)}
-                    addToCartHandler={() => addProductToCartHandler(product)}
+                    addItemToCart={() => addProductToCartHandler(product)}
+                    list
                  />
             ))}
         </>

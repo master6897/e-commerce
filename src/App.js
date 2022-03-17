@@ -9,11 +9,13 @@ import Products from './components/Products/Products';
 import ProductDetails from './components/Products/ProductDetails';
 import {Routes, Route} from 'react-router-dom';
 import Cart from './components/Cart/Cart';
+import ScrollToTop from './components/helpers/ScrollToTop/ScrollToTop';
 
 function App() {
   return (
     <div className="App">
       <Navigation />
+      <ScrollToTop />
       <Routes>
         <Route path='/' element={<WelcomePage />} />
         <Route path='/new-product' element={<NewProduct />} />
