@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCartArrowDown} from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 
 const StyledIcon = styled(FontAwesomeIcon)`
@@ -38,10 +40,15 @@ const StyledContainer = styled.div`
 
 
 const NavigationCart = () => {
+    let navigate = useNavigate();
+    const cart = useSelector(state => state.cart.totalAmount);
+    const showCartHandler = () => {
+        navigate('/cart');
+    }
     return(
-        <StyledContainer>
+        <StyledContainer onClick={showCartHandler}>
             <StyledIcon icon={faCartArrowDown}/>
-            <span>0</span>
+            <span>{cart ? cart : '0'}</span>
         </StyledContainer>
     )
 }

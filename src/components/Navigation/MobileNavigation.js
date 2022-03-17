@@ -1,5 +1,6 @@
 import styled, {css} from "styled-components";
 import Links from "./Links";
+import NavigationCart from "./NavigationCart";
 
 const StyledContainer = styled.div`
     position: absolute;
