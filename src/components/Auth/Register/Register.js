@@ -31,10 +31,7 @@ const Register = () => {
     if(emailValid && passwordValid){
         formIsValid = true;
     }
-    const handleResponse = (response) => {
-        console.log(response);
-    }
-    const {isLoading, error, isDone, sendRequest: authenticateUser} = useHttp(handleResponse);
+    const {isLoading, error, isDone, sendRequest: authenticateUser} = useHttp();
     const submitRegistrationHandler = (evt) => {
         evt.preventDefault();
         authenticateUser({

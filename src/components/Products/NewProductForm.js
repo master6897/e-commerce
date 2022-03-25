@@ -57,9 +57,7 @@ const NewProductForm = (props) => {
             }
             const uploadImage = storage.ref(`/images/${productPhotoValue.name}`).put(productPhotoValue);
             uploadImage.on('state_changed', (snapShot) => {
-                console.log(snapShot);
             }, (err) => {
-                console.log(err);
             }, () => {
                 storage.ref('images').child(productPhotoValue.name).getDownloadURL()
                 .then(fireBaseUrl => {

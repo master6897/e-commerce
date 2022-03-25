@@ -53,7 +53,6 @@ const Cart = () => {
     const dispatch = useDispatch();
     const cartValue = useSelector(state => state.cart);
     const cart = JSON.parse(localStorage.getItem('cart'));
-    console.log(cart);
     
     const plusItemHandler = (product) => {
         dispatch(cartActions.addItemToCart(product))

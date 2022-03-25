@@ -77,7 +77,6 @@ const StyledContainer = styled.div`
 
 const Modal = (props) => {
     const navigate = useNavigate();
-    console.log(props.fail);
     return(
         <StyledContainer animate={props.animate} info={props.info} fail={props.fail} registered={props.registered}>
             {props.animate && (

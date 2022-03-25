@@ -8,7 +8,6 @@ const uiSlice = createSlice({
     reducers: {
         addItemsToStore(state, action) {
             const items = action.payload;
-            console.log(items);
             state.products = items;
         }
     }

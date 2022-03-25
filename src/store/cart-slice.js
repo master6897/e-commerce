@@ -39,7 +39,6 @@ const cartSlice = createSlice({
             const cartData = {
                 ...state
             };
-            console.log(cartData);
             localStorage.setItem('cart', JSON.stringify(cartData));
             if(state.totalAmount === 0){
                 localStorage.removeItem('cart');

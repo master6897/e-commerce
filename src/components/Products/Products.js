@@ -30,7 +30,6 @@ const Products = () => {
                 ...data[key],
             });
         }
-        console.log(productsArray);
         dispatch(uiActions.addItemsToStore(productsArray));
         localStorage.setItem('products', JSON.stringify(productsArray));
     }, [dispatch]);

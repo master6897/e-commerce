@@ -68,8 +68,6 @@ const Login = () => {
             }
         });
     }
-
-    console.log(error);
     return(
         <Wrapper title={'Login'} isLoading={isLoading} error={error} isDone={isDone}>
             {!isLoading && !isDone && (
