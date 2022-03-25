@@ -37,6 +37,17 @@ const StyledContainer = styled.div`
         width: 70%;
         padding: 1rem;
     }
+    @media (max-width: 480px){
+        flex-direction: column;
+        align-items: center;
+        & div.photo{
+            height: 10rem;
+            width: 100%;
+        }
+        & div.description{
+            width: 80%;
+        }
+    }
 `;
 
 const DetailsCard = (props) => {

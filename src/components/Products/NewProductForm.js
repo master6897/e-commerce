@@ -1,50 +1,11 @@
-import React, {useState} from 'react';
-
-import styled from "styled-components";
+import React from 'react';
+import Form from '../helpers/Form/Form';
 import Button from '../helpers/Button/Button';
 import { storage } from '../../firebase/firebase';
-import useHttp from '../hooks/use-http';
 import useInput from '../hooks/use-input';
 
-const StyledForm = styled.form`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    width: 100%;
-    min-height: 50vh;
-    & div{
-        width: 90%;
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
-        & label{
-            width: 50%;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-        & input, textarea{
-            width: 50%;
-            padding: .5rem;
-            border: 1px solid var(--first);
-            border-radius: 5px;
-            outline: none;
-            &.error{
-                background-color: var(--third);
-            }
-        }
-    }
-`
 
 const NewProductForm = (props) => {
-    //const allInputs = {imgUrl: ''};
-   //const [imageAsFile, setImageAsFile] = useState('');
-    //const [imageAsUrl, setImageAsUrl] = useState(allInputs);
-    //const {isLoading, error, sendRequest: addProduct} = useHttp();
-
-   /* const imageChangeHandler = (evt) => {
-        setImageAsFile(evt.target.files[0]);
-    }*/
     const {setIsLoadingAll} = props;
     const {
         value: productNameValue,
@@ -141,8 +102,8 @@ const NewProductForm = (props) => {
     }
 
     return(
-        <StyledForm onSubmit={firebaseUploadHandler}>
-            <div>
+        <Form onSubmit={firebaseUploadHandler}>
+            <div className={productNameTouched && productNameError && 'error'}>
                 <label>Name of product:</label>
                 <input type='text' 
                     value={productNameValue}
@@ -151,8 +112,8 @@ const NewProductForm = (props) => {
                     className={productNameTouched && productNameError && 'error'}
                 />
             </div>
-            {productNameTouched && productNameError && <p style={{color: 'red'}}>Enter valid product name!</p>}
-            <div>
+            {productNameTouched && productNameError && <span>Enter valid product name!</span>}
+            <div className={productPriceTouched && productPriceError && 'error'}>
                 <label>Price:</label>
                 <input type='number'
                      value={productPriceValue}
@@ -161,8 +122,8 @@ const NewProductForm = (props) => {
                     className={productPriceTouched && productPriceError && 'error'}
                  />
             </div>
-            {productPriceTouched && productPriceError && <span style={{color: 'red'}}>Enter valid product price!</span>}
-            <div>
+            {productPriceTouched && productPriceError && <span>Enter valid product price!</span>}
+            <div className={productDescrTouched && productDescrError && 'error'}>
                 <label>Description:</label>
                 <textarea cols={20} rows={5}
                     value={productDescrValue}
@@ -171,8 +132,8 @@ const NewProductForm = (props) => {
                     className={productDescrTouched && productDescrError && 'error'}
                 />
             </div>
-            {productDescrTouched && productDescrError && <p style={{color: 'red'}}>Description can not be null!</p>}
-            <div>
+            {productDescrTouched && productDescrError && <span>Product description can not be empty!</span>}
+            <div className={productPhotoTouched && productPhotoError && 'error'}>
                 <label>Photo of the product:</label>
                 <input 
                     type='file' 
@@ -181,13 +142,13 @@ const NewProductForm = (props) => {
                     className={productPhotoTouched && productPhotoError && 'error'}
                 />
             </div>
-            {productPhotoTouched && productPhotoError && <span style={{color: 'red'}}>Pick valid photo!</span>}
+            {productPhotoTouched && productPhotoError && <span>Enter valid image!</span>}
             <Button 
                 value='Add new product'
                 type='submit'
                 disabled={!formIsValid}
             />
-        </StyledForm>
+        </Form>
     )
 }
 export default NewProductForm;

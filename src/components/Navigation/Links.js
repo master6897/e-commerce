@@ -1,6 +1,11 @@
 import { css } from "styled-components";
 import styled from "styled-components";
 import ActiveLink from "../helpers/ActiveLink/ActiveLink";
+import { useSelector } from "react-redux";
+import Button from "../helpers/Button/Button";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/auth-slice";
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
     display: flex;
@@ -17,6 +22,9 @@ const Wrapper = styled.div`
             width: 50%;
             border-bottom: 1px solid var(--first);
         }
+        & button {
+            margin-top: 1rem;
+        }
     `}
     & p{
         display: block;
@@ -30,6 +38,14 @@ const Wrapper = styled.div`
     `}
 `;
 const Links = (props) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+
+    const logoutHandler = () => {
+        dispatch(authActions.logout());
+        navigate('/login');
+    }
     return(
         <Wrapper mobile={props.mobile} desktop={props.desktop} onClick={() => props.mobile && props.burgerShowHandler()}>
             <ActiveLink path={'/'}>
@@ -38,12 +54,23 @@ const Links = (props) => {
             <ActiveLink path={'/products'}>
                 Products
             </ActiveLink>
-            <ActiveLink path={'/login'}>
-                Login
-            </ActiveLink>
+            {isLoggedIn && 
             <ActiveLink path={'/new-product'}>
                 Add Product
             </ActiveLink>
+            }
+
+            {isLoggedIn &&
+            <ActiveLink path={'/profile'}>
+                Profile
+            </ActiveLink>}
+            {isLoggedIn ? 
+            <Button value={'Logout'} onClick={logoutHandler}/>
+            :
+            <ActiveLink path={'/login'}>
+                Login
+            </ActiveLink>
+            }
         </Wrapper>
     )
 }

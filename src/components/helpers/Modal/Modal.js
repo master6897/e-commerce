@@ -77,11 +77,9 @@ const StyledContainer = styled.div`
 
 const Modal = (props) => {
     const navigate = useNavigate();
-    const redirectToProductsHandler = () => {
-        navigate('/products');
-    }
+    console.log(props.fail);
     return(
-        <StyledContainer animate={props.animate} info={props.info}>
+        <StyledContainer animate={props.animate} info={props.info} fail={props.fail} registered={props.registered}>
             {props.animate && (
                 <div className='animation'>
 
@@ -92,7 +90,9 @@ const Modal = (props) => {
                     <h1>Info</h1>
                     <h3>{props.message}</h3>
                     <div className='button-container'>
-                        <Button value='Okay' onClick={redirectToProductsHandler}/>
+                        {((!props.registered && !props.fail) || props.logged) && <Button value='Okay' onClick={() => navigate('/products')}/>}
+                        {props.fail && <Button value='Okay' onClick={() => navigate(0)}/>}
+                        {props.registered && <Button value='Okay' onClick={() => navigate('/login')} />}
                     </div>
                 </div>
             )}
