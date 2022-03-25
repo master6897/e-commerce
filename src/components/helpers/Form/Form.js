@@ -4,6 +4,7 @@ const StyledForm = styled.form`
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-end;
     width: 100%;
     & div{
         width: 90%;
@@ -57,9 +58,13 @@ const StyledForm = styled.form`
     }
     & span{
         color: red;
-        margin: 0 0 .8 8rem;
         @media (max-width: 480px){
             margin-bottom: 1rem;
+        }
+        @media (min-width: 480px){
+            margin:0 0 1rem 15vw;
+            text-align: left;
+            width: 25%;
         }
     }
 `
