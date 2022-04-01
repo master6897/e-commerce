@@ -3,11 +3,11 @@ const StyledContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 5rem;
+    ${props => props.child ? '' : 'margin-top: 5rem'};
     padding: 2rem;
     box-sizing: border-box;
     width: 100%;
-    min-height: 65vh;
+    ${props => props.child ? '' : 'min-height: 65vh'};
 `;
 const StyledFieldset = styled.fieldset`
     display: flex;
@@ -29,7 +29,7 @@ const StyledFieldset = styled.fieldset`
 
 const Wrapper = (props) => {
     return(
-        <StyledContainer>
+        <StyledContainer child={props.child}>
             {(!props.isLoading && !props.isDone) && <StyledFieldset>
                 <legend>{props.title}</legend>
                 {props.children}

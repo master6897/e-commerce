@@ -1,6 +1,8 @@
 import styled, {css, keyframes} from "styled-components";
 import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../../store/auth-slice";
 
 const animation = keyframes`
     0%{
@@ -76,7 +78,12 @@ const StyledContainer = styled.div`
 `
 
 const Modal = (props) => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const logoutHandler = () => {
+        dispatch(authActions.logout());
+        navigate('/login');
+    }
     return(
         <StyledContainer animate={props.animate} info={props.info} fail={props.fail} registered={props.registered}>
             {props.animate && (
@@ -89,9 +96,10 @@ const Modal = (props) => {
                     <h1>Info</h1>
                     <h3>{props.message}</h3>
                     <div className='button-container'>
-                        {((!props.registered && !props.fail) || props.logged) && <Button value='Okay' onClick={() => navigate('/products')}/>}
-                        {props.fail && <Button value='Okay' onClick={() => navigate(0)}/>}
+                        {((!props.registered && !props.fail && !props.passChanged && !props.photo) || props.logged) && <Button value='Okay' onClick={() => navigate('/products')}/>}
+                        {(props.fail || props.photo) && <Button value='Okay' onClick={() => navigate(0)}/>}
                         {props.registered && <Button value='Okay' onClick={() => navigate('/login')} />}
+                        {props.passChanged && <Button value='Okay' onClick={logoutHandler} />}
                     </div>
                 </div>
             )}

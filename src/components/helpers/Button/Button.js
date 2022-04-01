@@ -30,7 +30,13 @@ const StyledButton = styled.button`
 
 const Button = (props) => {
     return(
-        <StyledButton onClick={props.onClick} type={props.type} disabled={props.disabled} style={props.style}>
+        <StyledButton 
+            onClick={props.onClick} 
+            type={props.type} 
+            disabled={props.disabled} 
+            style={props.style} 
+            className={props.className}
+            >
             {props.value}
         </StyledButton>
     )

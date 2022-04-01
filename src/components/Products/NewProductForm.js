@@ -42,7 +42,7 @@ const NewProductForm = (props) => {
         valueChangeHandler: productPhotoChangeHandler,
         valueBlurHandler: productPhotoBlurHandler,
         reset: productPhotoReset
-    } = useInput((item) => item !== '', true);
+    } = useInput((item) => item !== '' && item.size < 100000, true);
 
     let formIsValid = false;
     if(productNameValid && productPriceValid && productDescrValid && productPhotoValid){
@@ -58,6 +58,7 @@ const NewProductForm = (props) => {
             const uploadImage = storage.ref(`/images/${productPhotoValue.name}`).put(productPhotoValue);
             uploadImage.on('state_changed', (snapShot) => {
             }, (err) => {
+                
             }, () => {
                 storage.ref('images').child(productPhotoValue.name).getDownloadURL()
                 .then(fireBaseUrl => {
@@ -141,6 +142,7 @@ const NewProductForm = (props) => {
                 />
             </div>
             {productPhotoTouched && productPhotoError && <span>Enter valid image!</span>}
+            {productPhotoValue.size > 100000 &&  <span>Image is too big (max. 100KB)!</span>}
             <Button 
                 value='Add new product'
                 type='submit'

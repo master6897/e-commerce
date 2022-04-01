@@ -17,6 +17,11 @@ const StyledContainer = styled.div`
     box-shadow: 0px 3px 24px 0px rgba(66, 68, 90, 1);
     overflow: hidden;
     margin-bottom: 4rem;
+    min-height: 30vh;
+    transition: .3s;
+    &:hover{
+        transform: scale(1.01);
+    }
     & div.photo{
         display: flex;
         width: 30%;

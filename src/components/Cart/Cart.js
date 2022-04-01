@@ -13,6 +13,19 @@ const StyledContainer = styled.div`
     padding: 2rem;
     min-height: 60vh;
     box-sizing: border-box;
+    & div.policy{
+        margin-top: 2rem;
+        font-size: 1.3rem;
+        & > label > a{
+            text-decoration: none;
+            color: var(--first);
+            cursor: pointer;
+        }
+    }
+    & button.submit {
+        margin-top: 2rem;
+        font-weight: 600;
+    }
 `;
 const StyledProductContainer = styled.div`
     display: flex;
@@ -46,19 +59,24 @@ const StyledProductContainer = styled.div`
                 width: 70%;
                 height: 70%;
             }
-    }
+        }
     }
 `
 const Cart = () => {
     const dispatch = useDispatch();
     const cartValue = useSelector(state => state.cart);
     const cart = JSON.parse(localStorage.getItem('cart'));
+    const [policy, setPolicy] = useState(false);
     
     const plusItemHandler = (product) => {
         dispatch(cartActions.addItemToCart(product))
     }
     const minusItemHandler = (product) => {
         dispatch(cartActions.removeItemFromCart(product));
+    }
+    const policyChangeHandler = () => {
+        setPolicy((prevState) => !prevState);
+        console.log(policy);
     }
     return(
         <StyledContainer>
@@ -79,6 +97,13 @@ const Cart = () => {
                 </StyledProductContainer>
             ))}
             {cart && <h1>Total cost: {cartValue.totalCost.toFixed(2)} $</h1>}
+            <div className='policy'>
+                <label>Accept &nbsp;
+                    <a href='#' target='blank'>policy terms</a>
+                </label>
+                <input type='checkbox' onChange={policyChangeHandler}/>
+            </div>
+            {policy ? <Button value='Order items' className='submit'/> : <Button value='Order items' disabled className='submit'/>}
         </StyledContainer>
     )
 }

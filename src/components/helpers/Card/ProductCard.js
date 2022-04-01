@@ -13,9 +13,11 @@ const StyledContainer = styled.div`
     margin: 2rem;
     transition: 0.3s;
     ${props => props.details && css`
-        width: 90%;
+        min-height: 60vh;
+        width: 80%;
         flex-direction: row;
         box-sizing: border-box;
+        justify-content: center;
         -webkit-box-shadow: 0px 3px 24px 0px rgba(66, 68, 90, 1);
         -moz-box-shadow: 0px 3px 24px 0px rgba(66, 68, 90, 1);
         box-shadow: 0px 3px 24px 0px rgba(66, 68, 90, 1);
