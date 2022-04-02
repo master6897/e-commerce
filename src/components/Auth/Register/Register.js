@@ -45,7 +45,8 @@ const Register = () => {
             headers: {
                 'Content-Type': 'application/json'
             }
-        })
+        });
+        console.log(error);
     }
     return(
         <Wrapper title={'Registration'} isLoading={isLoading} error={error} isDone={isDone}>
@@ -89,7 +90,7 @@ const Register = () => {
                 </>)}
             {isLoading && !error && <Modal animate />}
             {!isLoading && isDone && <Modal info registered message={'Succesfully registered!'}/>}
-            {error && <Modal info fail message={'Registration failed!'}/>}
+            {error && <Modal info fail message={'User with this email adress exists!'}/>}
          </Wrapper>
     )   
 }
