@@ -14,8 +14,7 @@ const Register = () => {
         isTouched: emailTouched,
         error: emailError,
         valueChangeHandler: emailChangeHandler,
-        valueBlurHandler: emailBlurHandler,
-        reset: emailReset
+        valueBlurHandler: emailBlurHandler
     } = useInput((item) => item.trim().length > 0);
     const {
         value: passwordValue,
@@ -23,8 +22,7 @@ const Register = () => {
         isTouched: passwordTouched,
         error: passwordError,
         valueChangeHandler: passwordChangeHandler,
-        valueBlurHandler: passwordBlurHandler,
-        reset: passwordReset
+        valueBlurHandler: passwordBlurHandler
     } = useInput((item) => item.trim().length > 6);
 
     let formIsValid = false;

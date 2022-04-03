@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Card from "../../helpers/Card/Card";
 import defaultUserPhoto from '../../../pictures/user.png';
@@ -8,6 +8,10 @@ import Button from "../../helpers/Button/Button";
 import ProfileEventsForm from "./ProfileEventsForm";
 import { useEffect, useState } from "react";
 import { storage } from "../../../firebase/firebase";
+import useHttp from "../../hooks/use-http";
+import { ordersActions } from "../../../store/orders-slice";
+import Modal from "../../helpers/Modal/Modal";
+import Orders from "./Orders";
 
 const StyledContainer = styled.section`
     display: flex;
@@ -72,11 +76,15 @@ const StyledContainer = styled.section`
     }
 `;
 const Profile = () => {
+    const dispatch = useDispatch();
     const user = useSelector(state => state.auth);
+    const orders = useSelector(state => state.orders);
     const [photoHandler, setPhotoHandler] = useState(false);
     const [passHandler, setPassHandler] = useState(false);
     const [firebasePicture, setFirebasePicture] = useState();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingModal, setIsLoadingModal] = useState(false);
+    const [showOrder, setShowOrder] = useState(false);
+    const [isRendered, setIsRendered] = useState(true);
 
     const changePhotoHandler = () => {
         setPhotoHandler((prevState) => !prevState);
@@ -87,10 +95,36 @@ const Profile = () => {
         setPhotoHandler(false);
     }
     const loadingChangeHandler = () => {
-        setIsLoading((prevState) => !prevState);
+        setIsLoadingModal((prevState) => !prevState);
+    }
+    const applyData = async (data) => {
+        let result = [];
+        let tempArray = [];
+        for(const key in data){
+            tempArray.push({
+                id: key,
+                ...data[key],
+            });
+        }
+        tempArray.map((element) => {
+            if(element.user === user.email){
+                result.push(element);
+            }
+        })
+        console.log(result);
+        dispatch(ordersActions.getOrders(result));
+    }
+
+    const {isLoading, isDone, sendRequest: getOrdersByEmail} = useHttp(applyData);
+
+    const showOrdersHandler = () => {
+        setShowOrder((prevState) => !prevState);
     }
     
     useEffect(() => {
+        getOrdersByEmail({
+            url: `https://e-commerce-35f70-default-rtdb.europe-west1.firebasedatabase.app/orders.json`
+        });
         let array = [];
         storage.ref(user.email).listAll().then((res) => {
             res.items.forEach((itemRef) => {
@@ -107,7 +141,9 @@ const Profile = () => {
             }).catch((err) => {
                 console.log(err);
         });
-        console.log(firebasePicture);
+        setTimeout(() => {
+            setIsRendered(false);
+        },500);
     },[firebasePicture, user.email])
     
     
@@ -115,7 +151,7 @@ const Profile = () => {
 
     return(
         <StyledContainer>
-            {!isLoading &&<Card>
+            {!isLoadingModal && !isRendered &&<Card>
                 <div className='photo'>
                     <div style={{background: `url(${firebasePicture}) center / cover no-repeat`}}>
                         <FontAwesomeIcon icon={faPen} onClick={changePhotoHandler}/>
@@ -125,11 +161,13 @@ const Profile = () => {
                 <div className='details'>
                     <h1>Informations and additional actions</h1>
                     <Button value='Change password' onClick={passwordHandler}/>
-                    <Button value='Show orders' />
+                    <Button value='Show orders' onClick={showOrdersHandler}/>
                 </div>
             </Card>}
             {photoHandler && <ProfileEventsForm photo user={user} loadingChangeHandler={loadingChangeHandler}/>}
             {passHandler && <ProfileEventsForm pass user={user} loadingChangeHandler={loadingChangeHandler}/>}
+            {(isLoading || isRendered) && <Modal animate />}
+            {isDone && showOrder && <Orders data={orders} />}
         </StyledContainer>
     )
 }

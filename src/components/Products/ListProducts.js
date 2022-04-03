@@ -1,11 +1,14 @@
 
 import ProductCard from "../helpers/Card/ProductCard";
+import Modal from "../helpers/Modal/Modal";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { cartActions } from "../../store/cart-slice";
+import { useEffect, useState } from "react";
 
 const ListProducts = () => {
+    const [isLoading, setIsLoading] = useState(true);
     const dispatch = useDispatch();
     let navigate = useNavigate();
     const products = useSelector(state => state.ui.products);
@@ -21,9 +24,14 @@ const ListProducts = () => {
         };
         dispatch(cartActions.addItemToCart(data));
     }
+    useEffect(() => {
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 1000);
+    })
     return(
         <>
-            {products.map((product) => (
+            {!isLoading && products.map((product) => (
                 <ProductCard
                     key={product.id}
                     title={product.name}
@@ -36,6 +44,7 @@ const ListProducts = () => {
                     list
                  />
             ))}
+            {isLoading && <Modal animate />}
         </>
     )
 }
