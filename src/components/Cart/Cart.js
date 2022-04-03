@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Button from "../helpers/Button/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../../store/cart-slice";
+import { useNavigate } from 'react-router-dom';
 
 const StyledContainer = styled.div`
     display: flex;
@@ -64,6 +65,7 @@ const StyledProductContainer = styled.div`
 `
 const Cart = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const cartValue = useSelector(state => state.cart);
     const cart = JSON.parse(localStorage.getItem('cart'));
     const [policy, setPolicy] = useState(false);
@@ -77,6 +79,9 @@ const Cart = () => {
     const policyChangeHandler = () => {
         setPolicy((prevState) => !prevState);
         console.log(policy);
+    }
+    const orderDetailsHandler = () => {
+        navigate('/order');
     }
     return(
         <StyledContainer>
@@ -98,12 +103,17 @@ const Cart = () => {
             ))}
             {cart && <h1>Total cost: {cartValue.totalCost.toFixed(2)} $</h1>}
             <div className='policy'>
-                <label>Accept &nbsp;
-                    <a href='#' target='blank'>policy terms</a>
-                </label>
-                <input type='checkbox' onChange={policyChangeHandler}/>
+                {cart && 
+                <>
+                    <label>Accept &nbsp;
+                        <a href='#' target='blank'>policy terms</a>
+                    </label>
+                    <input type='checkbox' onChange={policyChangeHandler}/>
+                </>
+                }
             </div>
-            {policy ? <Button value='Order items' className='submit'/> : <Button value='Order items' disabled className='submit'/>}
+            {policy ? <Button value='Order items' className='submit' onClick={orderDetailsHandler}
+            /> : <Button value='Order items' disabled className='submit'/>}
         </StyledContainer>
     )
 }

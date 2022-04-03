@@ -3,6 +3,8 @@ import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../../store/auth-slice";
+import { cartActions } from "../../../store/cart-slice";
+import { useSelector } from "react-redux";
 
 const animation = keyframes`
     0%{
@@ -78,11 +80,22 @@ const StyledContainer = styled.div`
 `
 
 const Modal = (props) => {
+    const user = useSelector(state => state.auth);
+    const cart = useSelector(state => state.cart);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const logoutHandler = () => {
         dispatch(authActions.logout());
         navigate('/login');
+    }
+    const clearCart = () => {
+        dispatch(cartActions.clearCart());
+        console.log(cart);
+        if(user.email === '' || user.email === undefined){
+            navigate('/products');
+        }else{
+            navigate('/profile');
+        }
     }
     return(
         <StyledContainer animate={props.animate} info={props.info} fail={props.fail} registered={props.registered}>
@@ -96,9 +109,11 @@ const Modal = (props) => {
                     <h1>Info</h1>
                     <h3>{props.message}</h3>
                     <div className='button-container'>
-                        {((!props.registered && !props.fail && !props.passChanged && !props.photo) || props.logged) && <Button value='Okay' onClick={() => navigate('/products')}/>}
+                        {((!props.registered && !props.fail && !props.passChanged && !props.photo && !props.orderError && !props.orderSuccess) || props.logged) && <Button value='Okay' onClick={() => navigate('/products')}/>}
                         {(props.fail || props.photo) && <Button value='Okay' onClick={() => navigate(0)}/>}
                         {props.registered && <Button value='Okay' onClick={() => navigate('/login')} />}
+                        {props.orderError && <Button value='Okay' onClick={() => navigate('/cart')} />}
+                        {props.orderSuccess && <Button value='Okay' onClick={clearCart}/>}
                         {props.passChanged && <Button value='Okay' onClick={logoutHandler} />}
                     </div>
                 </div>

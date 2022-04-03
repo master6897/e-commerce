@@ -16,6 +16,7 @@ import Profile from './components/Pages/Profile/Profile';
 import { useSelector } from 'react-redux';
 import { authActions } from './store/auth-slice';
 import { useDispatch } from 'react-redux';
+import OrderForm from './components/Cart/OrderForm';
 
 function App() {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ function App() {
         {!isLogged && <Route path='/register' element={<Register />} />}
         {isLogged && <Route path='/profile' element={<Profile />} />}
         <Route path='/cart' element={<Cart />} />
+        <Route path='/order' element={<OrderForm />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />
